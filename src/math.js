@@ -4,7 +4,7 @@ var Crafty = require('./core.js'),
 /**@
  * #Crafty.math
  * @category 2D
- * Provides commonly used math functions.
+ * Provides some commonly used math functions.
  */
 Crafty.math = {
     /**@
@@ -12,7 +12,7 @@ Crafty.math = {
      * @comp Crafty.math
      * @sign public this Crafty.math.abs(Number n)
      * @param n - A number.
-     * @return A positive number representing the absolute value.
+     * @return A positive number representing the absolute value of `n`.
      *
      * Returns the absolute value of a given number.
      */
@@ -24,13 +24,13 @@ Crafty.math = {
      * #Crafty.math.amountOf
      * @comp Crafty.math
      * @sign public Number Crafty.math.amountOf(Number checkValue, Number minValue, Number maxValue)
-     * @param checkValue - Value that should checked with minimum and maximum.
+     * @param checkValue - Value that should be checked with minimum and maximum.
      * @param minValue - Minimum value to check.
      * @param maxValue - Maximum value to check.
-     * @return Amount of checkValue compared to minValue and maxValue.
+     * @return Amount of `checkValue` compared to `minValue` and `maxValue`.
      *
-     * Returns the amount of how much a checkValue is more like minValue (=0)
-     * or more like maxValue (=1)
+     * Returns the amount of how much `checkValue` is more like `minValue` (=0)
+     * or more like `maxValue` (=1)
      * @example
      * ~~~
      * // distCovered has the value of '0.5', since 6 is 50% of the way from 2 to 10.
@@ -52,12 +52,12 @@ Crafty.math = {
      * #Crafty.math.clamp
      * @comp Crafty.math
      * @sign public Number Crafty.math.clamp(Number value, Number min, Number max)
-     * @param value - A value.
-     * @param max - Maximum that value can be.
-     * @param min - Minimum that value can be.
-     * @return The value between minimum and maximum.
+     * @param value - A number.
+     * @param max - The inclusive lower bound of the number returned.
+     * @param min - The inclusive upper bound of the number returned.
+     * @return The number itself if it falls within the range, or the minimum/maximum value if it does not.
      *
-     * Restricts a given value to be within the specified range.
+     * Returns a given number restricted to be within the specified range.
      */
     clamp: function (value, min, max) {
         if (value > max)
@@ -85,10 +85,10 @@ Crafty.math = {
      * #Crafty.math.distance
      * @comp Crafty.math
      * @sign public Number Crafty.math.distance(Number x1, Number y1, Number x2, Number y2)
-     * @param x1 - X coordinate of point 1.
-     * @param y1 - Y coordinate of point 1.
-     * @param x2 - X coordinate of point 2.
-     * @param y2 - Y coordinate of point 2.
+     * @param x1 - The X coordinate of point 1.
+     * @param y1 - The Y coordinate of point 1.
+     * @param x2 - The X coordinate of point 2.
+     * @param y2 - The Y coordinate of point 2.
      * @return The distance between the two points.
      *
      * Returns the distance between two points.
@@ -105,7 +105,7 @@ Crafty.math = {
      * @param value1 - The initial value.
      * @param value2 - The ending value.
      * @param amount - A value representing the position between the two values, on a range from 0 to 1.
-     * @return The linearly interpolated value given the provided amount.
+     * @return The linearly interpolated value given the provided `amount`.
      *
      * Linearly interpolates between two given values based on the given amount and returns the
      * result.
@@ -118,10 +118,10 @@ Crafty.math = {
      * #Crafty.math.negate
      * @comp Crafty.math
      * @sign public Number Crafty.math.negate(Number percent)
-     * @param percent - The desired chance of a -1 being returned, as a number between 0 and 1.
+     * @param percent - The desired probability of a -1 being returned, as a number between 0 and 1.
      * @return 1 or -1.
      *
-     * Returns either 1 or -1, depending on the given chance of a -1 being returned.
+     * Returns either 1 or -1, depending on the given probability of a -1 being returned.
      */
     negate: function (percent) {
         if (Math.random() < percent)
@@ -160,9 +160,9 @@ Crafty.math = {
      * #Crafty.math.randomInt
      * @comp Crafty.math
      * @sign public Number Crafty.math.randomInt(Number start, Number end)
-     * @param start - Smallest integer value that can be returned.
-     * @param end - Biggest integer value that can be returned.
-     * @return A random integer in the range [start, end].
+     * @param start - The inclusive lower bound of the integer returned.
+     * @param end - The inclusive upper bound of the integer returned.
+     * @return A random integer greater than or equal to `start`, and less than or equal to `end`.
      *
      * Returns a random integer within the specific range.
      */
@@ -174,9 +174,9 @@ Crafty.math = {
      * #Crafty.math.randomNumber
      * @comp Crafty.math
      * @sign public Number Crafty.math.randomNumber(Number start, Number end)
-     * @param start - Smallest number value that can be returned.
-     * @param end - Biggest number value that can be returned.
-     * @return A random number.
+     * @param start - The inclusive lower bound of the number returned.
+     * @param end - The exclusive upper bound of the number returned.
+     * @return A random number greater than or equal to `start`, and less than `end`.
      *
      * Returns a random number within the specific range.
      */
@@ -207,7 +207,7 @@ Crafty.math = {
      * @param value - The specific value.
      * @param min - The minimum value.
      * @param max - The maximum value.
-     * @return Returns true if the value is within a specific range, and false if it isn't.
+     * @return Returns `true` if the value is within a specific range, and `false` if it isn't.
      *
      * Checks if a given value is within a specific range.
      */
