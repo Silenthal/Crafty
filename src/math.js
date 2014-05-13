@@ -10,7 +10,7 @@ Crafty.math = {
     /**@
      * #Crafty.math.abs
      * @comp Crafty.math
-     * @sign public this Crafty.math.abs(Number n)
+     * @sign public Number Crafty.math.abs(Number n)
      * @param n - A number.
      * @return A positive number representing the absolute value of `n`.
      *
@@ -24,13 +24,12 @@ Crafty.math = {
      * #Crafty.math.amountOf
      * @comp Crafty.math
      * @sign public Number Crafty.math.amountOf(Number checkValue, Number minValue, Number maxValue)
-     * @param checkValue - Value that should be checked with minimum and maximum.
-     * @param minValue - Minimum value to check.
-     * @param maxValue - Maximum value to check.
-     * @return Amount of `checkValue` compared to `minValue` and `maxValue`.
+     * @param checkValue - A number between `minValue` and `maxValue`.
+     * @param minValue - The inclusive lower bound of the range.
+     * @param maxValue - The inclusive upper bound of the range.
+     * @return A number within the range `[0,1]` indicating whether `checkValue` is closer to `minValue (0)` or `maxValue (1)`.
      *
-     * Returns the amount of how much `checkValue` is more like `minValue` (=0)
-     * or more like `maxValue` (=1)
+     * Returns a number indicating where `checkValue` is located in relation to the given range.
      * @example
      * ~~~
      * // distCovered has the value of '0.5', since 6 is 50% of the way from 2 to 10.
@@ -39,6 +38,7 @@ Crafty.math = {
      * // rLerp has the value of '0.25', since 20 is 25% of the way from 10 to 50.
      * var rLerp = Crafty.math.amountOf(20, 10, 50);
      * ~~~
+     * @see Crafty.math.lerp
      */
     amountOf: function (checkValue, minValue, maxValue) {
         if (minValue < maxValue)
@@ -53,8 +53,8 @@ Crafty.math = {
      * @comp Crafty.math
      * @sign public Number Crafty.math.clamp(Number value, Number min, Number max)
      * @param value - A number.
-     * @param max - The inclusive lower bound of the number returned.
-     * @param min - The inclusive upper bound of the number returned.
+     * @param min - The inclusive lower bound of the range.
+     * @param max - The inclusive upper bound of the range.
      * @return The number itself if it falls within the range, or the minimum/maximum value if it does not.
      *
      * Returns a given number restricted to be within the specified range.
@@ -73,9 +73,9 @@ Crafty.math = {
      * @comp Crafty.math
      * @sign public Number Crafty.math.degToRad(Number angleInDeg)
      * @param angleInDeg - The angle in degrees.
-     * @return The angle in radians.
+     * @return A number representing the angle in radians.
      *
-     * Converts a given angle in degrees to the equivalent value in radians.
+     * Converts a given angle in degrees to the equivalent angle in radians.
      */
     degToRad: function (angleInDeg) {
         return angleInDeg * Math.PI / 180;
@@ -89,13 +89,12 @@ Crafty.math = {
      * @param y1 - The Y coordinate of point 1.
      * @param x2 - The X coordinate of point 2.
      * @param y2 - The Y coordinate of point 2.
-     * @return The distance between the two points.
+     * @return A positive number representing the distance between the two points.
      *
      * Returns the distance between two points.
      */
     distance: function (x1, y1, x2, y2) {
-        var squaredDistance = Crafty.math.squaredDistance(x1, y1, x2, y2);
-        return Math.sqrt(parseFloat(squaredDistance));
+        return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
     },
 
     /**@
@@ -104,11 +103,17 @@ Crafty.math = {
      * @sign public Number Crafty.math.lerp(Number value1, Number value2, Number amount)
      * @param value1 - The initial value.
      * @param value2 - The ending value.
-     * @param amount - A value representing the position between the two values, on a range from 0 to 1.
-     * @return The linearly interpolated value given the provided `amount`.
+     * @param amount - A number representing the position between the two values, within the range `[0, 1]`.
+     * @return A number representing the linearly interpolated value.
      *
-     * Linearly interpolates between two given values based on the given amount and returns the
-     * result.
+     * Linearly interpolates between two given values based on `amount` and returns the result.
+     * @example
+     * ~~~
+     * // The value of blend will be 26, because the value 60% of the way (.6) from 20 to 30 is 26.
+     * var blend = Crafty.math.lerp(20, 30, .6);
+     * // The value of dist will be 4, because the value 50% of the way (.5) from 1 to 7 is 4.
+     * var dist = Crafty.math.lerp(1, 7, .5)
+     * ~~~
      */
     lerp: function (value1, value2, amount) {
         return value1 + (value2 - value1) * amount;
@@ -118,8 +123,8 @@ Crafty.math = {
      * #Crafty.math.negate
      * @comp Crafty.math
      * @sign public Number Crafty.math.negate(Number percent)
-     * @param percent - The desired probability of a -1 being returned, as a number between 0 and 1.
-     * @return 1 or -1.
+     * @param percent - A number within the range `[0, 1]` indicating the desired probability of a -1 being returned.
+     * @return Either 1 or -1.
      *
      * Returns either 1 or -1, depending on the given probability of a -1 being returned.
      */
@@ -135,9 +140,9 @@ Crafty.math = {
      * @comp Crafty.math
      * @sign public Number Crafty.math.radToDeg(Number angle)
      * @param angleInRad - The angle in radians.
-     * @return The angle in degrees.
+     * @return A number representing the angle in degrees.
      *
-     * Converts a given angle in radians to the equivalent value in degrees.
+     * Converts a given angle in radians to the equivalent angle in degrees.
      */
     radToDeg: function (angleInRad) {
         return angleInRad * 180 / Math.PI;
@@ -147,10 +152,10 @@ Crafty.math = {
      * #Crafty.math.randomElementOfArray
      * @comp Crafty.math
      * @sign public Object Crafty.math.randomElementOfArray(Array array)
-     * @param array - A specific array.
-     * @return A random element of a specific array.
+     * @param array - An array.
+     * @return An element from `array`, chosen at random.
      *
-     * Returns a random element of a specific array.
+     * Returns a random element from the specified array.
      */
     randomElementOfArray: function (array) {
         return array[Math.floor(array.length * Math.random())];
@@ -160,11 +165,11 @@ Crafty.math = {
      * #Crafty.math.randomInt
      * @comp Crafty.math
      * @sign public Number Crafty.math.randomInt(Number start, Number end)
-     * @param start - The inclusive lower bound of the integer returned.
-     * @param end - The inclusive upper bound of the integer returned.
+     * @param start - The inclusive lower bound of the range.
+     * @param end - The inclusive upper bound of the range.
      * @return A random integer greater than or equal to `start`, and less than or equal to `end`.
      *
-     * Returns a random integer within the specific range.
+     * Returns a random integer within the specified range.
      */
     randomInt: function (start, end) {
         return start + Math.floor((1 + end - start) * Math.random());
@@ -174,11 +179,11 @@ Crafty.math = {
      * #Crafty.math.randomNumber
      * @comp Crafty.math
      * @sign public Number Crafty.math.randomNumber(Number start, Number end)
-     * @param start - The inclusive lower bound of the number returned.
-     * @param end - The exclusive upper bound of the number returned.
+     * @param start - The inclusive lower bound of the range.
+     * @param end - The exclusive upper bound of the range.
      * @return A random number greater than or equal to `start`, and less than `end`.
      *
-     * Returns a random number within the specific range.
+     * Returns a random number within the specified range.
      */
     randomNumber: function (start, end) {
         return start + (end - start) * Math.random();
@@ -192,7 +197,7 @@ Crafty.math = {
      * @param y1 - Y coordinate of point 1.
      * @param x2 - X coordinate of point 2.
      * @param y2 - Y coordinate of point 2.
-     * @return The squared distance between the two points.
+     * @return A positive number representing the squared distance between the two points.
      *
      * Returns the squared distance between two points.
      */
@@ -204,12 +209,12 @@ Crafty.math = {
      * #Crafty.math.withinRange
      * @comp Crafty.math
      * @sign public Boolean Crafty.math.withinRange(Number value, Number min, Number max)
-     * @param value - The specific value.
-     * @param min - The minimum value.
-     * @param max - The maximum value.
-     * @return Returns `true` if the value is within a specific range, and `false` if it isn't.
+     * @param value - The number to check.
+     * @param min - The inclusive lower bound of the range.
+     * @param max - The inclusive upper bound of the range.
+     * @return A boolean equal to `true` if `value` is within the range, and `false` otherwise.
      *
-     * Checks if a given value is within a specific range.
+     * Returns whether a given value falls within the specified range.
      */
     withinRange: function (value, min, max) {
         return (value >= min && value <= max);
